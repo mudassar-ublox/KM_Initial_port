@@ -1,28 +1,39 @@
+
 #include "mbed.h"
+#include "rtos.h"
 
-DigitalOut led1(LED1);
-//Serial pc(SERIAL_TX, SERIAL_RX);
+Mutex mutex;
 
-int gA=1;
-int gB;
-const int C = 10;
-
-static void myHeap_Address()
-{
-	//pc.printf("address gA: %d\n", &gA);
-	//pc.printf("address gB: %d\n", &gB);
-	//pc.printf("address constant C: %d\n", &C);
+void Th_print_1(const char* name, int state) {
+	mutex.lock();
+    printf("Thread 1\n\r");
+    mutex.unlock();
 }
 
-// main() runs in its own thread in the OS
-int main() {
+void Th_print_2(const char* name, int state) {
+	mutex.lock();
+    printf("Thread 1\n\r");
+    mutex.unlock();
+}
+
+void test_thread_1(void const *args) {
     while (true) {
-		int a =10;		
-        led1 = !led1;
-        wait(0.5);
-		myHeap_Address();
-		//pc.printf("Stack address: %d\n", &a);
-		//pc.printf("This is ")
+    	Th_print_1((const char*)args, 0);
+        Thread::wait(1000);
     }
 }
 
+void test_thread_2(void const *args) {
+    while (true) {
+    	Th_print_2((const char*)args, 0);
+        Thread::wait(1000);
+    }
+}
+
+int main() {
+    Thread t1(test_thread_1);
+    Thread t2(test_thread_2);
+
+    test_thread_1((void *)"Th 1");
+    test_thread_2((void *)"Th 2");
+}
