@@ -1,39 +1,61 @@
-
 #include "mbed.h"
 #include "rtos.h"
+#include <string>
+#include <string.h>
 
-Mutex mutex;
 
-void Th_print_1(const char* name, int state) {
-	mutex.lock();
-    printf("Thread 1\n\r");
-    mutex.unlock();
+DigitalOut led1(LED1);
+
+
+typedef struct {
+    char team[20];
+    char project[10];
+    int  members;
+} ublox_t;
+
+int gA=1;
+int gB;
+const int C = 10;
+
+static void myHeap_Address()
+{
+	//pc.printf("address gA: %d\n", &gA);
+ 	//pc.printf("address gB: %d\n", &gB);
+ 	//pc.printf("address constant C: %d\n", &C);
 }
 
-void Th_print_2(const char* name, int state) {
-	mutex.lock();
-    printf("Thread 1\n\r");
-    mutex.unlock();
-}
 
-void test_thread_1(void const *args) {
+int main (void) {
+
+	ublox_t obj;
+
+	char *var = "Stk_Tools";
+	int cmp = 0, len = 0;
+
+	len = strlen(var);
+	printf("Length: %d\n", len);
+
+	strcpy(obj.team, (const char *)"Tools");
+	strcpy(obj.project, (const char *)"KMA");
+	obj.members = 4;
+
+	len = sizeof(obj);
+	printf("Obj Size: %d\n", len);
+
+	strcat(obj.project," ON FPGA");
+
+	memcpy(obj.team,var,strlen(var)-1);
+
+	memset(obj.project,2,3);
+
+	cmp = memcmp(obj.team,var,5);
+	if(cmp == 0)
+	{
+		printf("Both strings are equal\n");
+	}
+
     while (true) {
-    	Th_print_1((const char*)args, 0);
-        Thread::wait(1000);
+    	myHeap_Address();
     }
 }
 
-void test_thread_2(void const *args) {
-    while (true) {
-    	Th_print_2((const char*)args, 0);
-        Thread::wait(1000);
-    }
-}
-
-int main() {
-    Thread t1(test_thread_1);
-    Thread t2(test_thread_2);
-
-    test_thread_1((void *)"Th 1");
-    test_thread_2((void *)"Th 2");
-}
