@@ -35,8 +35,21 @@ int main (void) {
 	len = strlen(var);
 	printf("Length: %d\n", len);
 
+
 	strcpy(obj.team, (const char *)"Tools");
+	cmp = strcmp(obj.team,"Tools");
+	if(cmp == 0)
+	{
+		printf("String Copied Successfully\n");
+	}
+
 	strcpy(obj.project, (const char *)"KMA");
+	cmp = strcmp(obj.project,"KMA");
+	if(cmp == 0)
+	{
+		printf("String Copied Successfully\n");
+	}
+
 	obj.members = 4;
 
 	len = sizeof(obj);
@@ -49,6 +62,7 @@ int main (void) {
 	memset(obj.project,2,3);
 
 	cmp = memcmp(obj.team,var,5);
+
 	if(cmp == 0)
 	{
 		printf("Both strings are equal\n");
