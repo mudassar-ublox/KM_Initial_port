@@ -16,27 +16,33 @@ bool gpio_check = FALSE;
 
 void gpio_led_toggle(void) {
 
-
-	led0 != led0;
-	led1 != led1;
-	led2 != led2;
-	led3 != led3;
-	led4 != led4;
-	led5 != led5;
-	led6 != led6;
-		
     if(!gpio_check)
     {
     	gpio_check = TRUE;
         pc.printf("LED's ON\n");
+
+    	led0 = 1;
+    	led1 = 1;
+    	led2 = 1;
+    	led3 = 1;
+    	led4 = 1;
+    	led5 = 1;
+    	led6 = 1;
     }
     else
     {
     	gpio_check = FALSE;
         pc.printf("LED's OFF\n\n");
+
+    	led0 = 0;
+    	led1 = 0;
+    	led2 = 0;
+    	led3 = 0;
+    	led4 = 0;
+    	led5 = 0;
+    	led6 = 0;
     }
 }
-
 
 void test_thread_1(void const *args) {
 
