@@ -5,8 +5,6 @@ SPI spi(SPI1_MOSI, SPI1_MISO, SPI1_CLK, SPI1_CS); // mosi, miso, sclk
 DigitalOut cs(SPI1_CS);
 
 int main() {
-    // Chip must be deselected
-
     int x = 0, y = 0;
 
     printf("Starting Master. . .\r\n");
@@ -17,9 +15,6 @@ int main() {
     //spi.format(8,0);
     //spi.frequency(1000000);
 
-    // Select the device by seting chip select low
-    cs = 0;
-
     // Send 0x8f, the command to read the WHOAMI register
     //spi.write(0x8F);
 
@@ -28,18 +23,24 @@ int main() {
     //printf("WHOAMI register = 0x%X\n", whoami);
 
 	//spi.write(0x00);
-    // Deselect the device
-    //cs = 1;
+
     while(1){
 		cs = 0;
-        x++;
+
         printf("Data Send = %d\r\n", x);
         y = spi.write(x);
+
         y = spi.write(0x00);
         printf("Data Received = %d\r\n", y);
+
+        Thread::wait(1000);
+
 		cs = 1;
-        //wait_ms(1000);
         y = 0;
+
+        Thread::wait(1000);
+
+        x++;
 
 		if(x >= 255){
 			x = 0;
