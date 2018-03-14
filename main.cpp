@@ -36,4 +36,6 @@ int main() {
 
     test_thread_1((void *)"Th 1");
     test_thread_2((void *)"Th 2");
+    test_thread_2((void *)"Th 2");
+    test_thread_2((void *)"Th 2");
 }
