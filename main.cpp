@@ -24,20 +24,15 @@ int main() {
 
 	//spi.write(0x00);
 
-    while(1){
-		cs = 0;
+    cs = 0;
+    while (1) {
 
         printf("Data Send = %d\r\n", x);
         y = spi.write(x);
-
-        y = spi.write(0x00);
         printf("Data Received = %d\r\n", y);
 
         Thread::wait(1000);
-
-		cs = 1;
         y = 0;
-
         Thread::wait(1000);
 
         x++;
